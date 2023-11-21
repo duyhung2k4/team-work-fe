@@ -1,19 +1,21 @@
 "use client"
 
-import './globals.css'
-import { Inter } from 'next/font/google'
-import { MantineProvider } from "@mantine/core";
-import { Provider } from 'react-redux';
-import { store } from '@/redux/store';
+import "./globals.css"
 
-const inter = Inter({ subsets: ['latin'] })
+import { store } from "@/redux/store";
+import { Provider } from "react-redux";
+import { Inter } from "next/font/google";
+import { MantineProvider } from "@mantine/core";
+import AuthRouter from "@/pages/auth";
+
+const inter = Inter({ subsets: ["latin"] })
 
 interface AuthProps {
   public: any
   protected: any
 }
-type KeyAuth = keyof AuthProps;
-interface RootProps extends AuthProps {
+export type KeyAuth = keyof AuthProps;
+export interface RootProps extends AuthProps {
   children: React.ReactNode
   params: {
     tag: string
@@ -22,8 +24,6 @@ interface RootProps extends AuthProps {
 }
 
 export default function RootLayout(props: RootProps) {
-  const key: KeyAuth = "protected";
-
   return (
     <html lang="en">
       <head>
@@ -35,7 +35,7 @@ export default function RootLayout(props: RootProps) {
       >
         <Provider store={store}>
           <MantineProvider>
-            {props.params ? props[key] : props.children}
+            <AuthRouter {...props}/>
           </MantineProvider>
         </Provider>
       </body>
