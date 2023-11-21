@@ -3,6 +3,8 @@
 import './globals.css'
 import { Inter } from 'next/font/google'
 import { MantineProvider } from "@mantine/core";
+import { Provider } from 'react-redux';
+import { store } from '@/redux/store';
 
 const inter = Inter({ subsets: ['latin'] })
 
@@ -20,7 +22,7 @@ interface RootProps extends AuthProps {
 }
 
 export default function RootLayout(props: RootProps) {
-  const key: KeyAuth = "public";
+  const key: KeyAuth = "protected";
 
   return (
     <html lang="en">
@@ -28,12 +30,14 @@ export default function RootLayout(props: RootProps) {
         <title>Team work</title>
         <meta name="description" content="Root Page" />
       </head>
-      <body 
+      <body
         className={inter.className}
       >
-        <MantineProvider>
-          {props.params ? props[key] : props.children}
-        </MantineProvider>
+        <Provider store={store}>
+          <MantineProvider>
+            {props.params ? props[key] : props.children}
+          </MantineProvider>
+        </Provider>
       </body>
     </html>
   )
